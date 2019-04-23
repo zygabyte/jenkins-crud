@@ -10,5 +10,6 @@ namespace JenkinsCrudApp.Models
         public string ArthurLastName { get; set; }
         public string Isbn { get; set; }
         public DateTime PublicationDate { get; set; }
+        public string PublicationPlace { get; set; }
     }
 }

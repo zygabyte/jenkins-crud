@@ -1,4 +1,6 @@
+using System;
 using System.Web.Mvc;
+using JenkinsCrudApp.Models;
 
 namespace JenkinsCrudApp.Controllers
 {
@@ -9,6 +11,25 @@ namespace JenkinsCrudApp.Controllers
         {
             return
             View();
+        }
+        
+        public ActionResult Create()
+        {
+            return null;
+        }
+
+        public JsonResult CreateBooks(Book book)
+        {
+            try
+            {
+
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                throw;
+            }
+            return null;
         }
     }
 }
