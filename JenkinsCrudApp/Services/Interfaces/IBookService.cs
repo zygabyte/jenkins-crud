@@ -1,5 +1,5 @@
 using System.Collections.Generic;
-using JenkinsCrudApp.Models;
+using JenkinsCrudApp.Data;
 
 namespace JenkinsCrudApp.Services.Interfaces
 {

@@ -1,6 +1,6 @@
 using System;
 using System.Web.Mvc;
-using JenkinsCrudApp.Models;
+using JenkinsCrudApp.Data;
 
 namespace JenkinsCrudApp.Controllers
 {

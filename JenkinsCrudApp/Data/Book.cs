@@ -26,5 +26,7 @@ namespace JenkinsCrudApp.Data
 
         [StringLength(50)]
         public string PublicationPlace { get; set; }
+
+        public bool IsDeleted { get; set; }
     }
 }

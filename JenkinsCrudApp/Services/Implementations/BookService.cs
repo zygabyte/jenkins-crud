@@ -1,5 +1,8 @@
+using System;
 using System.Collections.Generic;
-using JenkinsCrudApp.Models;
+using System.Data.Entity;
+using System.Linq;
+using JenkinsCrudApp.Data;
 using JenkinsCrudApp.Services.Interfaces;
 
 namespace JenkinsCrudApp.Services.Implementations
@@ -8,27 +11,70 @@ namespace JenkinsCrudApp.Services.Implementations
     {
         public bool AddBook(Book book)
         {
-            throw new System.NotImplementedException();
+            try
+            {
+                using (var jenkinsContext = new JenkinsCrudContext())
+                {
+                    jenkinsContext.Books.Add(book);
+
+                    return jenkinsContext.SaveChanges() > 0;
+                }
+            }
+            catch(Exception e)
+            {
+                return false;
+            }
         }
 
-        public IEnumerable<Book> GetBooks()
-        {
-            throw new System.NotImplementedException();
-        }
+        public IEnumerable<Book> GetBooks() => new JenkinsCrudContext().Books.ToList();
 
-        public Book GetBook(int bookId)
-        {
-            throw new System.NotImplementedException();
-        }
+        public Book GetBook(int bookId) => new JenkinsCrudContext().Books.FirstOrDefault(x => !x.IsDeleted && x.Id == bookId);
 
         public bool UpdateBook(Book book, int bookId)
         {
-            throw new System.NotImplementedException();
+            try
+            {
+                using (var jenkinsContext = new JenkinsCrudContext())
+                {
+                    var currentBook = jenkinsContext.Books.FirstOrDefault(x => !x.IsDeleted && x.Id == bookId);
+
+                    currentBook.Isbn = book.Isbn;
+                    currentBook.PublicationDate = book.PublicationDate;
+                    currentBook.PublicationPlace = book.PublicationPlace;
+                    currentBook.Title = book.Title;
+                    currentBook.ArthurFirstName = book.ArthurFirstName;
+                    currentBook.ArthurLastName = book.ArthurLastName;
+
+                    jenkinsContext.Entry(currentBook).State = EntityState.Modified;
+
+                    return jenkinsContext.SaveChanges() > 0;
+                }
+            }
+            catch (Exception e)
+            {
+                return false;
+            }
         }
 
         public bool DeleteBook(int bookId)
         {
-            throw new System.NotImplementedException();
+            try
+            {
+                using (var jenkinsContext = new JenkinsCrudContext())
+                {
+                    var currentBook = jenkinsContext.Books.FirstOrDefault(x => x.Id == bookId);
+
+                    currentBook.IsDeleted = true;
+
+                    jenkinsContext.Entry(currentBook).State = EntityState.Modified;
+
+                    return jenkinsContext.SaveChanges() > 0;
+                }
+            }
+            catch (Exception e)
+            {
+                return false;
+            }
         }
     }
 }
