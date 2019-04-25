@@ -26,11 +26,11 @@ namespace JenkinsCrudApp.Services.Implementations
             }
         }
 
-        public IEnumerable<Book> GetBooks() => new JenkinsCrudContext().Books.ToList();
+        public IEnumerable<Book> GetBooks() => new JenkinsCrudContext().Books.Where(x => !x.IsDeleted).ToList();
 
         public Book GetBook(int bookId) => new JenkinsCrudContext().Books.FirstOrDefault(x => !x.IsDeleted && x.Id == bookId);
 
-        public bool UpdateBook(Book book, int bookId)
+        public bool UpdateBook(int bookId, Book book)
         {
             try
             {
@@ -42,8 +42,8 @@ namespace JenkinsCrudApp.Services.Implementations
                     currentBook.PublicationDate = book.PublicationDate;
                     currentBook.PublicationPlace = book.PublicationPlace;
                     currentBook.Title = book.Title;
-                    currentBook.ArthurFirstName = book.ArthurFirstName;
-                    currentBook.ArthurLastName = book.ArthurLastName;
+                    currentBook.AuthorFirstName = book.AuthorFirstName;
+                    currentBook.AuthorLastName = book.AuthorLastName;
 
                     jenkinsContext.Entry(currentBook).State = EntityState.Modified;
 

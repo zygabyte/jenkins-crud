@@ -8,24 +8,221 @@
     <p><a href="https://asp.net" class="btn btn-primary btn-lg">Learn more &raquo;</a></p>
 </div>
 
+@*<div class="row">
+        <div class="col-md-4">
+            <h2>Getting started</h2>
+            <p>
+                ASP.NET MVC gives you a powerful, patterns-based way to build dynamic websites that
+                enables a clean separation of concerns and gives you full control over markup
+                for enjoyable, agile development.
+            </p>
+            <p><a class="btn btn-default" href="https://go.microsoft.com/fwlink/?LinkId=301865">Learn more &raquo;</a></p>
+        </div>
+        <div class="col-md-4">
+            <h2>Get more libraries</h2>
+            <p>NuGet is a free Visual Studio extension that makes it easy to add, remove, and update libraries and tools in Visual Studio projects.</p>
+            <p><a class="btn btn-default" href="https://go.microsoft.com/fwlink/?LinkId=301866">Learn more &raquo;</a></p>
+        </div>
+        <div class="col-md-4">
+            <h2>Web Hosting</h2>
+            <p>You can easily find a web hosting company that offers the right mix of features and price for your applications.</p>
+            <p><a class="btn btn-default" href="https://go.microsoft.com/fwlink/?LinkId=301867">Learn more &raquo;</a></p>
+        </div>
+    </div>*@
+
 <div class="row">
-    <div class="col-md-4">
-        <h2>Getting started</h2>
-        <p>
-            ASP.NET MVC gives you a powerful, patterns-based way to build dynamic websites that
-            enables a clean separation of concerns and gives you full control over markup
-            for enjoyable, agile development.
-        </p>
-        <p><a class="btn btn-default" href="https://go.microsoft.com/fwlink/?LinkId=301865">Learn more &raquo;</a></p>
+    <div class="col-md-12">
+        <button type="button" data-toggle="modal" data-target="#newBookModal" class="btn btn-success btn-sm">New Book</button>
     </div>
-    <div class="col-md-4">
-        <h2>Get more libraries</h2>
-        <p>NuGet is a free Visual Studio extension that makes it easy to add, remove, and update libraries and tools in Visual Studio projects.</p>
-        <p><a class="btn btn-default" href="https://go.microsoft.com/fwlink/?LinkId=301866">Learn more &raquo;</a></p>
-    </div>
-    <div class="col-md-4">
-        <h2>Web Hosting</h2>
-        <p>You can easily find a web hosting company that offers the right mix of features and price for your applications.</p>
-        <p><a class="btn btn-default" href="https://go.microsoft.com/fwlink/?LinkId=301867">Learn more &raquo;</a></p>
+    <div class="col-md-12">
+        <table id="booksTable" class="table table-striped">
+            <thead>
+                <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">Title</th>
+                    <th scope="col">Author Firstname</th>
+                    <th scope="col">Author Lastname</th>
+                    <th scope="col">ISBN</th>
+                    <th scope="col">Publication Date</th>
+                    <th scope="col">Publication Place</th>
+                    <th scope="col">Action</th>
+                </tr>
+            </thead>
+            <tbody></tbody>
+        </table>
     </div>
 </div>
+
+<div class="modal fade" id="newBookModal" role="dialog" aria-labelledby="newBookModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <form class="form-horizontal" data-parsley-validate="true">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                        ×
+                    </button>
+                    <h4 class="modal-title">New Book</h4>
+                </div>
+                <div class="modal-body">
+                    <div class="form-group">
+
+                        <div class="col-md-6 col-sm-12">
+                            <label for="authorFirstName">Author First Name</label>
+                            <input type="text" class="form-control" id="authorFirstName" required placeholder="Author First Name">
+                        </div>
+                        <div class="col-md-6 col-sm-12">
+                            <label for="authorLastName">Author Last Name</label>
+                            <input type="text" class="form-control" id="authorLastName" required placeholder="Author Last Name">
+                        </div>
+                        <div class="col-md-6 col-sm-12">
+                            <label for="title">Book Title</label>
+                            <input type="text" class="form-control" id="title" required placeholder="Book Title">
+                        </div>
+                        <div class="col-md-6 col-sm-12">
+                            <label for="isbn">ISBN</label>
+                            <input type="text" class="form-control" id="isbn" required placeholder="ISBN">
+                        </div>
+                        <div class="col-md-6 col-sm-12">
+                            <label for="pubDate">Publication Date</label>
+                            <div class="input-group date" id="datetimepicker1">
+                                <input type="text" id="pubDate" class="form-control" />
+                                <span class="input-group-addon">
+                                    <span class="glyphicon glyphicon-calendar"></span>
+                                </span>
+                            </div>
+                            @*<input type="text" class="form-control" id="pubDate" required placeholder="Publication Date">*@
+                        </div>
+                        <div class="col-md-6 col-sm-12">
+                            <label for="pubPlace">Publication Place</label>
+                            <input type="text" class="form-control" id="pubPlace" required placeholder="Publication Place">
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary" data-dismiss="modal" onclick="createBook()">Add Book</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+@section scripts
+{
+    <script>
+        $(document).ready(function () {
+            pageLoad();
+            $('#datetimepicker1').datetimepicker();
+        });
+
+        function pageLoad() {
+            api("GET",
+                "/Book/ReadBooks",
+                null,
+                true,
+                readBooksResponse)
+
+        }
+
+        function readBooksResponse(data) {
+            console.log('data');
+            console.log(data);
+
+            if (data.Status) {
+                data.Data.forEach((book, i) => {
+                    var row = '<tr>';
+                    row += '<td>' + (i + 1) + '</td>';
+                    row += '<td>' + book.Title + '</td>';
+                    row += '<td>' + book.AuthorFirstName + '</td>';
+                    row += '<td>' + book.AuthorLastName + '</td>';
+                    row += '<td>' + book.Isbn + '</td>';
+                    row += '<td>' + book.PublicationDate + '</td>';
+                    row += '<td>' + book.PublicationPlace + '</td>';
+                    row += '<td><button type="button" class="btn btn-success btn-xs" id="approve_btn" onclick="update(\'' + book.Id + '\')">Update</button> | <button type="button" class="btn btn-danger btn-xs" onclick="delete(\'' + book.Id + '\')">Delete</button></td>';
+                    row += '</tr>';
+
+                    $('#booksTable tbody').append(row);
+                });
+
+            }
+        }
+
+        function createBook() {
+            var authorFirstName = $('#authorFirstName').val();
+            var authorLastName = $('#authorLastName').val();
+            var title = $('#title').val();
+            var pubDate = $('#pubDate').val();
+            var pubPlace = $('#pubPlace').val();
+            var isbn = $('#isbn').val();
+
+            var book = {
+                AuthorFirstName: authorFirstName,
+                AuthorLastName: authorLastName,
+                Title: title,
+                PublicationDate: pubDate,
+                PublicationPlace: pubPlace,
+                Isbn: isbn
+            }
+
+            window.api("POST",
+                "/Book/CreateBook",
+                { book: book },
+                true,
+                createBookResponse, true);
+        }
+
+        function createBookResponse(data) {
+            console.log('data');
+            console.log(data);
+            if (data.Status) window.location = '/Home';
+        }
+
+        function api(apiConnectType, url, data, asyncMode, callback, feedBack = false, callbackOnFailure = false) {
+            $.ajax({
+                type: apiConnectType,
+                url: url,
+                async: asyncMode,
+                data: data,
+                dataType: "json",
+                timeout: 60000,
+                headers: {
+                    "user-auth": $("#auth").val()
+                }
+            })
+                .success(function (remoteData) {
+                    if (remoteData.Status === true) {
+                        if (callback !== null && typeof callback === "function") {
+                            if (feedBack) {
+                                //swalSuccess(remoteData.Message);
+                                setTimeout(function () {
+                                    callback(remoteData);
+                                },
+                                    2000);
+                            } else
+                                callback(remoteData);
+                        } else {
+                            if (feedBack) {
+                                //swalSuccess(remoteData.Message);
+                            }
+                        }
+                    } else {
+                        if (callbackOnFailure && callback !== null && typeof callback === "function") callback(remoteData);
+                        //swalWarning(remoteData.Message);
+                    }
+                })
+                .error(function (e) {
+                    if (e.statusText === 'error' && e.responseText === '' && e.readyState === 0) { // means we had no response and the request was unsent i.e. unable to get to the server -> highly probable that it's no connectivity between client and server
+                        //swalNetworkError("Something seems to be wrong with your network. Please check your Internet connection");
+                        return;
+                    }
+                    else if (e.statusText === 'timeout' && e.readyState === 0) { // we've waited for too long oo
+                        //swalInfo('Could not get a response from the server. Reloading now');
+                        location.reload();
+                        return;
+                    }
+
+                    //swalEx();
+                });
+        }
+    </script>
+}

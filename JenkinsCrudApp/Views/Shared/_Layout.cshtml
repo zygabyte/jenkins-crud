@@ -6,6 +6,7 @@
     <title>@ViewBag.Title - My ASP.NET Application</title>
     @Styles.Render("~/Content/css")
     @Scripts.Render("~/bundles/modernizr")
+    @Styles.Render("~/Content/datepicker")
 </head>
 <body>
     <div class="navbar navbar-inverse navbar-fixed-top">
@@ -37,6 +38,19 @@
 
     @Scripts.Render("~/bundles/jquery")
     @Scripts.Render("~/bundles/bootstrap")
+    @Scripts.Render("~/bundles/datepicker")
+
+    <script>
+        $(document).ready(function () {
+            $(".datepicker-default").datepicker({
+                todayHighlight: true,
+                format: 'dd/mm/yyyy',
+                endDate: '@DateTime.Now.ToString("dd/MM/yyyy")',
+                todayBtn: true
+            });
+        });
+    </script>
+
     @RenderSection("scripts", required: false)
 </body>
 </html>

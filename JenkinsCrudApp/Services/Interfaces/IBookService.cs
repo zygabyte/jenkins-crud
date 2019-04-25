@@ -8,7 +8,7 @@ namespace JenkinsCrudApp.Services.Interfaces
         bool AddBook(Book book);
         IEnumerable<Book> GetBooks();
         Book GetBook(int bookId);
-        bool UpdateBook(Book book, int bookId);
+        bool UpdateBook(int bookId, Book book);
         bool DeleteBook(int bookId);
     }
 }
