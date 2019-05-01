@@ -10,7 +10,7 @@ namespace JenkinsCrudApp.UnitTests.Services
     [TestFixture]
     public class BookServiceTests
     {
-        private IBookService _bookService;
+     private IBookService _bookService;
         private Book _beautyAndTheBeast;
         private Book _gameOfThrones;
         private Book _swordOfTruth;
@@ -156,6 +156,6 @@ namespace JenkinsCrudApp.UnitTests.Services
             _bookService.AddBook(_swordOfTruth);
             
             Assert.That(() => _bookService.DeleteBook(9000), Throws.ArgumentNullException);
-        }
+        }   
     }
 }

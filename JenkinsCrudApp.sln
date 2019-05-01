@@ -5,6 +5,8 @@ VisualStudioVersion = 15.0.28010.2048
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JenkinsCrudApp", "JenkinsCrudApp\JenkinsCrudApp.csproj", "{F5131B2A-2F9D-47FC-8065-BD87638C9AA0}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JenkinsCrudApp.UnitTests", "JenkinsCrudApp.UnitTests\JenkinsCrudApp.UnitTests.csproj", "{6EB2E801-6489-4A1F-A25C-C2B668C4F379}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +17,10 @@ Global
 		{F5131B2A-2F9D-47FC-8065-BD87638C9AA0}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F5131B2A-2F9D-47FC-8065-BD87638C9AA0}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F5131B2A-2F9D-47FC-8065-BD87638C9AA0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6EB2E801-6489-4A1F-A25C-C2B668C4F379}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6EB2E801-6489-4A1F-A25C-C2B668C4F379}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6EB2E801-6489-4A1F-A25C-C2B668C4F379}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6EB2E801-6489-4A1F-A25C-C2B668C4F379}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

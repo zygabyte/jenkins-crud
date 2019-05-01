@@ -1,5 +1,4 @@
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using JenkinsCrudApp.Controllers;
@@ -216,6 +215,5 @@ namespace JenkinsCrudApp.UnitTests.Controllers
             Assert.That(responseData.Status, Is.False);
             Assert.That(responseData.Message, Does.Contain("Error in deleting"));
         }
-
     }
 }
