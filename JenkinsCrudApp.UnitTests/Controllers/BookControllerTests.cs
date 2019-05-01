@@ -26,7 +26,7 @@ namespace JenkinsCrudApp.UnitTests.Controllers
             {
                 Isbn = "LKSA46",
                 Title = "Beauty and the beast",
-                PublicationDate = DateTime.Now,
+                PublicationDate = DateTime.Now.ToString("yyyy-MM-dd"),
                 PublicationPlace = "Abuja",
                 AuthorLastName = "James",
                 AuthorFirstName = "Doe"
@@ -36,7 +36,7 @@ namespace JenkinsCrudApp.UnitTests.Controllers
             {
                 Isbn = "KKW43",
                 Title = "Game of Thrones",
-                PublicationDate = DateTime.Now,
+                PublicationDate = DateTime.Now.ToString("yyyy-MM-dd"),
                 PublicationPlace = "UK",
                 AuthorLastName = "Jane",
                 AuthorFirstName = "White"
@@ -46,7 +46,7 @@ namespace JenkinsCrudApp.UnitTests.Controllers
             {
                 Isbn = "AASQ22",
                 Title = "Sword of Truth",
-                PublicationDate = DateTime.Now,
+                PublicationDate = DateTime.Now.ToString("yyyy-MM-dd"),
                 PublicationPlace = "US",
                 AuthorLastName = "Goodkind",
                 AuthorFirstName = "Terry"
@@ -84,7 +84,8 @@ namespace JenkinsCrudApp.UnitTests.Controllers
             var responseData = (ResponseData) response.Data;
             
             Assert.That(responseData.Status, Is.True);
-            Assert.That(((IEnumerable<BookVm>)responseData.Data).Count(), Is.EqualTo(3));
+            Assert.That(((IEnumerable<Book>)responseData.Data).Count(), Is.EqualTo(3));
+            Assert.That((IEnumerable<Book>)responseData.Data, Is.EqualTo(new List<Book>{_beautyAndTheBeast, _gameOfThrones, _swordOfTruth}));
         }
         
         [Test]
@@ -94,7 +95,8 @@ namespace JenkinsCrudApp.UnitTests.Controllers
             var responseData = (ResponseData) response.Data;
             
             Assert.That(responseData.Status, Is.True);
-            Assert.That(((IEnumerable<BookVm>)responseData.Data).Count(), Is.EqualTo(0));
+            Assert.That(((IEnumerable<Book>)responseData.Data).Count(), Is.EqualTo(0));
+            Assert.That((IEnumerable<Book>)responseData.Data, Is.EqualTo(new List<Book>()));
         }
         
         [Test]
@@ -136,7 +138,7 @@ namespace JenkinsCrudApp.UnitTests.Controllers
             {
                 Isbn = "AASQ22",
                 Title = "NEW LEGEND OF THE SEEKER",
-                PublicationDate = DateTime.Now,
+                PublicationDate = DateTime.Now.ToString("yyyy-MM-dd"),
                 PublicationPlace = "US",
                 AuthorLastName = "GOOD KIND",
                 AuthorFirstName = "TERRY"
@@ -160,7 +162,7 @@ namespace JenkinsCrudApp.UnitTests.Controllers
             {
                 Isbn = "AASQ22",
                 Title = "NEW LEGEND OF THE SEEKER",
-                PublicationDate = DateTime.Now,
+                PublicationDate = DateTime.Now.ToString("yyyy-MM-dd"),
                 PublicationPlace = "US",
                 AuthorLastName = "GOOD KIND",
                 AuthorFirstName = "TERRY"

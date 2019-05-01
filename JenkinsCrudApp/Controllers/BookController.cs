@@ -54,12 +54,7 @@ namespace JenkinsCrudApp.Controllers
         {
             try
             {
-                return Json(new ResponseData { Status = true, Data = _bookService.GetBooks().Select(x => new BookVm
-                {
-                    AuthorFirstName = x.AuthorFirstName, AuthorLastName = x.AuthorLastName, Id = x.Id, 
-                    Isbn = x.Isbn, PublicationPlace = x.PublicationPlace, Title = x.Title,
-                    PublicationDate = x.PublicationDate.ToString("yyyy-MM-dd")
-                }) }, JsonRequestBehavior.AllowGet);
+                return Json(new ResponseData { Status = true, Data = _bookService.GetBooks() }, JsonRequestBehavior.AllowGet);
             }
             catch (Exception e)
             {

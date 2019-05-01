@@ -141,7 +141,7 @@
                     row += '<td>' + book.Isbn + '</td>';
                     row += '<td>' + book.PublicationDate + '</td>';
                     row += '<td>' + book.PublicationPlace + '</td>';
-                    row += '<td><button type="button" class="btn btn-success btn-xs" id="approve_btn" onclick="update(\'' + book.Id + '\')">Update</button> | <button type="button" class="btn btn-danger btn-xs" onclick="delete(\'' + book.Id + '\')">Delete</button></td>';
+                    row += '<td><button type="button" class="btn btn-success btn-xs" id="approve_btn" onclick="update(\'' + book.Id + '\')">Update</button> | <button type="button" class="btn btn-danger btn-xs" onclick="deleteBook(\'' + book.Id + '\')">Delete</button></td>';
                     row += '</tr>';
 
                     $('#booksTable tbody').append(row);
@@ -239,8 +239,18 @@
         }
 
         function updateBookResponse(data) {
-            console.log('data');
-            console.log(data);
+            if (data.Status) window.location = '/Home';
+        }
+        
+        function deleteBook(bookId) {
+            window.api("POST",
+                "/Book/DeleteBook",
+                { bookId: bookId },
+                true,
+                deleteBookResponse, true);
+        }
+        
+        function deleteBookResponse(data) {
             if (data.Status) window.location = '/Home';
         }
 

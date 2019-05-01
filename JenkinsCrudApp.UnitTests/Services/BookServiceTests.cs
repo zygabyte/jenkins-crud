@@ -24,7 +24,7 @@ namespace JenkinsCrudApp.UnitTests.Services
             {
                 Isbn = "LKSA46",
                 Title = "Beauty and the beast",
-                PublicationDate = DateTime.Now,
+                PublicationDate = DateTime.Now.ToString("yyyy-MM-dd"),
                 PublicationPlace = "Abuja",
                 AuthorLastName = "James",
                 AuthorFirstName = "Doe"
@@ -34,7 +34,7 @@ namespace JenkinsCrudApp.UnitTests.Services
             {
                 Isbn = "KKW43",
                 Title = "Game of Thrones",
-                PublicationDate = DateTime.Now,
+                PublicationDate = DateTime.Now.ToString("yyyy-MM-dd"),
                 PublicationPlace = "UK",
                 AuthorLastName = "Jane",
                 AuthorFirstName = "White"
@@ -44,7 +44,7 @@ namespace JenkinsCrudApp.UnitTests.Services
             {
                 Isbn = "AASQ22",
                 Title = "Sword of Truth",
-                PublicationDate = DateTime.Now,
+                PublicationDate = DateTime.Now.ToString("yyyy-MM-dd"),
                 PublicationPlace = "US",
                 AuthorLastName = "Goodkind",
                 AuthorFirstName = "Terry"
@@ -99,7 +99,7 @@ namespace JenkinsCrudApp.UnitTests.Services
             {
                 Isbn = "AASQ22",
                 Title = "NEW LEGEND OF THE SEEKER",
-                PublicationDate = DateTime.Now,
+                PublicationDate = DateTime.Now.ToString("yyyy-MM-dd"),
                 PublicationPlace = "US",
                 AuthorLastName = "GOOD KIND",
                 AuthorFirstName = "TERRY"
@@ -129,7 +129,7 @@ namespace JenkinsCrudApp.UnitTests.Services
             {
                 Isbn = "AASQ22",
                 Title = "NEW LEGEND OF THE SEEKER",
-                PublicationDate = DateTime.Now,
+                PublicationDate = DateTime.Now.ToString("yyyy-MM-dd"),
                 PublicationPlace = "US",
                 AuthorLastName = "GOOD KIND",
                 AuthorFirstName = "TERRY"
