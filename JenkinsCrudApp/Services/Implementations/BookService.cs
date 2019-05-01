@@ -38,6 +38,8 @@ namespace JenkinsCrudApp.Services.Implementations
                 {
                     var currentBook = jenkinsContext.Books.FirstOrDefault(x => !x.IsDeleted && x.Id == bookId);
 
+                    if (currentBook == null) return false;
+                    
                     currentBook.Isbn = book.Isbn;
                     currentBook.PublicationDate = book.PublicationDate;
                     currentBook.PublicationPlace = book.PublicationPlace;
@@ -64,6 +66,8 @@ namespace JenkinsCrudApp.Services.Implementations
                 {
                     var currentBook = jenkinsContext.Books.FirstOrDefault(x => x.Id == bookId);
 
+                    if (currentBook == null) return false;
+                    
                     currentBook.IsDeleted = true;
 
                     jenkinsContext.Entry(currentBook).State = EntityState.Modified;

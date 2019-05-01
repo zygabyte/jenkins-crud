@@ -32,7 +32,7 @@
 
 <div class="row">
     <div class="col-md-12">
-        <button type="button" data-toggle="modal" data-target="#newBookModal" class="btn btn-success btn-sm">New Book</button>
+        <button type="button" data-toggle="modal" data-target="#newBookModal" onclick="showNewBookButton()" class="btn btn-success btn-sm">New Book</button>
     </div>
     <div class="col-md-12">
         <table id="booksTable" class="table table-striped">
@@ -66,6 +66,8 @@
                 <div class="modal-body">
                     <div class="form-group">
 
+                        <input type="hidden" class="form-control" id="id" required>
+                        
                         <div class="col-md-6 col-sm-12">
                             <label for="authorFirstName">Author First Name</label>
                             <input type="text" class="form-control" id="authorFirstName" required placeholder="Author First Name">
@@ -86,9 +88,9 @@
                             <label for="pubDate">Publication Date</label>
                             <div class="input-group date" id="datetimepicker1">
                                 <input type="text" id="pubDate" class="form-control" />
-                                <span class="input-group-addon">
-                                    <span class="glyphicon glyphicon-calendar"></span>
-                                </span>
+                                @* <span class="input-group-addon"> *@
+                                @*     <span class="glyphicon glyphicon-calendar"></span> *@
+                                @* </span> *@
                             </div>
                             @*<input type="text" class="form-control" id="pubDate" required placeholder="Publication Date">*@
                         </div>
@@ -99,8 +101,9 @@
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                    <button type="button" class="btn btn-primary" data-dismiss="modal" onclick="createBook()">Add Book</button>
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                    <button type="button" id="newBook" class="btn btn-primary" data-dismiss="modal" onclick="createBook()">Add Book</button>
+                    <button type="button" id="updateBook" class="btn btn-primary" data-dismiss="modal" onclick="updateBookClick()">Update Book</button>
                 </div>
             </form>
         </div>
@@ -120,7 +123,7 @@
                 "/Book/ReadBooks",
                 null,
                 true,
-                readBooksResponse)
+                readBooksResponse);
 
         }
 
@@ -144,6 +147,41 @@
                     $('#booksTable tbody').append(row);
                 });
 
+            }
+        }
+
+        function showNewBookButton() {
+            // show new button and hide update button
+            $('#newBook').show();
+            $('#updateBook').hide(); 
+        }
+        
+        function update(bookId) {
+            window.api("POST",
+                "/Book/ReadBook",
+                { bookId: bookId },
+                true,
+                updateResponse, true);
+        }
+        
+        function updateResponse(data) {
+            if (data.Status) {
+                var book = data.Data;
+                
+                // activate modal
+                $('#newBookModal').modal('show');
+                
+                $('#id').val(book.Id);
+                $('#authorFirstName').val(book.AuthorFirstName);
+                $('#authorLastName').val(book.AuthorLastName);
+                $('#title').val(book.Title);
+                $('#pubDate').val(book.PublicationDate);
+                $('#pubPlace').val(book.PublicationPlace);
+                $('#isbn').val(book.Isbn);
+                
+                // show update button and hide new button
+                $('#newBook').hide();
+                $('#updateBook').show();
             }
         }
 
@@ -172,6 +210,35 @@
         }
 
         function createBookResponse(data) {
+            if (data.Status) window.location = '/Home';
+        }
+
+        function updateBookClick() {
+            var id = $('#id').val();
+            var authorFirstName = $('#authorFirstName').val();
+            var authorLastName = $('#authorLastName').val();
+            var title = $('#title').val();
+            var pubDate = $('#pubDate').val();
+            var pubPlace = $('#pubPlace').val();
+            var isbn = $('#isbn').val();
+
+            var book = {
+                AuthorFirstName: authorFirstName,
+                AuthorLastName: authorLastName,
+                Title: title,
+                PublicationDate: pubDate,
+                PublicationPlace: pubPlace,
+                Isbn: isbn
+            }
+
+            window.api("POST",
+                "/Book/UpdateBook",
+                { bookId: id, book: book },
+                true,
+                updateBookResponse, true);
+        }
+
+        function updateBookResponse(data) {
             console.log('data');
             console.log(data);
             if (data.Status) window.location = '/Home';

@@ -22,7 +22,8 @@ namespace JenkinsCrudApp.Data
         [StringLength(20)]
         public string Isbn { get; set; }
 
-        public DateTime PublicationDate { get; set; }
+        [StringLength(20)]
+        public string PublicationDate { get; set; }
 
         [StringLength(50)]
         public string PublicationPlace { get; set; }
