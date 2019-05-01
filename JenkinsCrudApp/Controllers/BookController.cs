@@ -13,9 +13,14 @@ namespace JenkinsCrudApp.Controllers
     {
         private readonly IBookService _bookService;
         private const string objectName = "Book";
+
         public BookController()
         {
-            _bookService = new BookService();
+                _bookService = new BookService();
+        }
+        public BookController(IBookService bookService = null)
+        {
+            _bookService = bookService ?? new BookService();
         }
         // GET
         public ActionResult Index()
@@ -35,10 +40,9 @@ namespace JenkinsCrudApp.Controllers
                 if (book == null)
                     return Json(new ResponseData { Status = false, Message = string.Format(DefaultConstants.NullObject, objectName) }, JsonRequestBehavior.AllowGet);
 
-                if (_bookService.AddBook(book))
-                    return Json(new ResponseData { Status = true, Message = string.Format(DefaultConstants.SuccessfullyCreated, objectName) }, JsonRequestBehavior.AllowGet);
-
-                return Json(new ResponseData { Status = false, Message = string.Format(DefaultConstants.FailedCreate, objectName) }, JsonRequestBehavior.AllowGet);
+                return Json(_bookService.AddBook(book) 
+                    ? new ResponseData { Status = true, Message = string.Format(DefaultConstants.SuccessfullyCreated, objectName) } 
+                    : new ResponseData { Status = false, Message = string.Format(DefaultConstants.FailedCreate, objectName) }, JsonRequestBehavior.AllowGet);
             }
             catch (Exception e)
             {
@@ -50,9 +54,10 @@ namespace JenkinsCrudApp.Controllers
         {
             try
             {
-                return Json(new ResponseData { Status = true, Data = _bookService.GetBooks().Select(x => new
+                return Json(new ResponseData { Status = true, Data = _bookService.GetBooks().Select(x => new BookVm
                 {
-                    x.AuthorFirstName, x.AuthorLastName, x.Id, x.Isbn, x.PublicationPlace, x.Title,
+                    AuthorFirstName = x.AuthorFirstName, AuthorLastName = x.AuthorLastName, Id = x.Id, 
+                    Isbn = x.Isbn, PublicationPlace = x.PublicationPlace, Title = x.Title,
                     PublicationDate = x.PublicationDate.ToString("yyyy-MM-dd")
                 }) }, JsonRequestBehavior.AllowGet);
             }
@@ -81,10 +86,9 @@ namespace JenkinsCrudApp.Controllers
                 if (book == null)
                     return Json(new ResponseData { Status = false, Message = string.Format(DefaultConstants.NullObject, objectName) }, JsonRequestBehavior.AllowGet);
 
-                if (_bookService.UpdateBook(bookId, book))
-                    return Json(new ResponseData { Status = true, Message = string.Format(DefaultConstants.SuccessfullyUpdated, objectName) }, JsonRequestBehavior.AllowGet);
-
-                return Json(new ResponseData { Status = false, Message = string.Format(DefaultConstants.FailedUpdate, objectName) }, JsonRequestBehavior.AllowGet);
+                return Json(_bookService.UpdateBook(bookId, book) 
+                    ? new ResponseData { Status = true, Message = string.Format(DefaultConstants.SuccessfullyUpdated, objectName) } 
+                    : new ResponseData { Status = false, Message = string.Format(DefaultConstants.FailedUpdate, objectName) }, JsonRequestBehavior.AllowGet);
             }
             catch (Exception e)
             {
@@ -96,14 +100,13 @@ namespace JenkinsCrudApp.Controllers
         {
             try
             {
-                if (_bookService.DeleteBook(bookId))
-                    return Json(new ResponseData { Status = true, Message = string.Format(DefaultConstants.SuccessfullyDeleted, objectName) }, JsonRequestBehavior.AllowGet);
-
-                return Json(new ResponseData { Status = false, Message = string.Format(DefaultConstants.FailedDelete, objectName) }, JsonRequestBehavior.AllowGet);
+                return Json(_bookService.DeleteBook(bookId) 
+                    ? new ResponseData { Status = true, Message = string.Format(DefaultConstants.SuccessfullyDeleted, objectName) } 
+                    : new ResponseData { Status = false, Message = string.Format(DefaultConstants.FailedDelete, objectName) }, JsonRequestBehavior.AllowGet);
             }
             catch (Exception e)
             {
-                return Json(new ResponseData { Status = false, Message = string.Format(DefaultConstants.FailedDelete, objectName) }, JsonRequestBehavior.AllowGet);
+                return Json(new ResponseData { Status = false, Message = string.Format(DefaultConstants.ErrorDelete, objectName) }, JsonRequestBehavior.AllowGet);
             }
         }
     }

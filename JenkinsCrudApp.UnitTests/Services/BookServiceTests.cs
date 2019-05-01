@@ -2,7 +2,6 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using JenkinsCrudApp.Data;
-using JenkinsCrudApp.Services.Implementations;
 using JenkinsCrudApp.Services.Interfaces;
 using NUnit.Framework;
 
@@ -116,16 +115,6 @@ namespace JenkinsCrudApp.UnitTests.Services
             _bookService.AddBook(_gameOfThrones);
             _bookService.AddBook(_swordOfTruth);
 
-            var newSwordOfTruth = new Book
-            {
-                Isbn = "AASQ22",
-                Title = "NEW LEGEND OF THE SEEKER",
-                PublicationDate = DateTime.Now,
-                PublicationPlace = "US",
-                AuthorLastName = "GOOD KIND",
-                AuthorFirstName = "TERRY"
-            };
-            
             Assert.That(() => _bookService.UpdateBook(_swordOfTruth.Id, null), Throws.ArgumentNullException);
         }
         
